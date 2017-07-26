@@ -49,6 +49,11 @@ function drawGraph(data){
 
 	//console.log(forceLink().id(function(d){return d.id}))
 
+	//shows data on mousehover
+	let div = select('body').append('div')
+		.attr('class','tooltip')
+		.style('opacity',0);
+
 	let link = svg.append('g')
 		.attr('class','links')
 		.selectAll('line')
@@ -67,7 +72,23 @@ function drawGraph(data){
 			.call(drag()
 				.on('start',dragstarted)
 				.on('drag',dragged)
-				.on('end',dragended));
+				.on('end',dragended))
+			.on('mouseover',function(d){
+				div.transition()
+					.duration(300)
+					.style('opacity',.9)
+				div.html(d.country)
+					.style('left',(event.pageX -50)+'px')
+					.style('top',(event.pageY-80)+'px')
+				
+			})
+			.on('mouseout',function(d){
+				div.transition()
+					.duration(300)
+					.style('opacity',0)
+			})
+
+
 		
 	simulation
 		.nodes(data.nodes)
