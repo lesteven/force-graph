@@ -27,10 +27,10 @@ function getData(url){
 	})
 }
 function drawGraph(data){
-	//console.log(data)
+	console.log(data)
 	//variable holding svg attributes
-	const width = 950;
-	const height = 550;
+	const width = 1250;
+	const height = 750;
 
 	//creates svg
 	let svg = select('body')
@@ -38,14 +38,11 @@ function drawGraph(data){
 		.attr('width',width)
 		.attr('height',height)
 		.attr('class','graph');
-		
-	console.log(data.nodes[data.links[1].target],
-		data.nodes[data.links[1].source])
 
 	let simulation = forceSimulation()
 		.force('link',forceLink())
 		.force('charge',forceManyBody())
-		.force('center',forceCenter(width/2,height/2))
+		.force('center',forceCenter(width,height))
 
 	//console.log(forceLink().id(function(d){return d.id}))
 
@@ -64,11 +61,10 @@ function drawGraph(data){
 
 	let node = svg.append('g')
 		.attr('class','nodes')
-		.selectAll('circle')
+		.select('#flag')
 		.data(data.nodes)
-		.enter().append('circle')
-			.attr('r',5)
-			.attr('fill','blue')
+		.enter().append('img')
+			.attr('class',function(d){return 'flag flag-'+ d.code})
 			.call(drag()
 				.on('start',dragstarted)
 				.on('drag',dragged)
@@ -98,13 +94,13 @@ function drawGraph(data){
 	function ticked(){
 		const radius = 4;
 		link
-			.attr('x1',function(d){return d.source.x;})
-			.attr('y1',function(d){return d.source.y;})
-			.attr('x2',function(d){return d.target.x;})
-			.attr('y2',function(d){return d.target.y;})
+			.attr('x1',function(d){return d.source.x/2;})
+			.attr('y1',function(d){return d.source.y/2;})
+			.attr('x2',function(d){return d.target.x/2;})
+			.attr('y2',function(d){return d.target.y/2;})
 		node
-			.attr('cx',function(d){return d.x  = Math.max(radius, Math.min(width - radius, d.x))})
-			.attr('cy',function(d){return d.y = Math.max(radius, Math.min(height - radius, d.y))})
+			.style('left', function (d) { return d.x/2 + 'px'; })
+            .style('top', function (d) { return d.y/2 + 'px'; });
 	}
 	function dragstarted(d){
 		if(!event.active) simulation.alphaTarget(0.3).restart();
