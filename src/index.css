@@ -1,10 +1,6 @@
 body{
 	text-align: center;
 }
-.graph{
-	border-style: solid;
-	border-color: black;
-}
 div{
 	color:white;
 	background-color:#004c4c;
@@ -14,4 +10,8 @@ div{
 }
 .flag{
 	position:absolute;
+}
+.title{
+	font-size:24px;
+	fill:navy
 }
