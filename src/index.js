@@ -27,7 +27,7 @@ function getData(url){
 	})
 }
 function drawGraph(data){
-	console.log(data)
+	//console.log(data)
 	//variable holding svg attributes
 	const width = 1250;
 	const height = 850;
