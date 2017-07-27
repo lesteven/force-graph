@@ -79,7 +79,7 @@ function drawGraph(data){
 					.style('opacity',.9)
 				div.html(d.country)
 					.style('left',(event.pageX -50)+'px')
-					.style('top',(event.pageY-80)+'px')
+					.style('top',(event.pageY-100)+'px')
 				
 			})
 			.on('mouseout',function(d){
@@ -88,8 +88,6 @@ function drawGraph(data){
 					.style('opacity',0)
 			})
 
-
-		
 	simulation
 		.nodes(data.nodes)
 		.on('tick',ticked);
@@ -98,14 +96,15 @@ function drawGraph(data){
 		.links(data.links)
 		
 	function ticked(){
+		const radius = 4;
 		link
 			.attr('x1',function(d){return d.source.x;})
 			.attr('y1',function(d){return d.source.y;})
 			.attr('x2',function(d){return d.target.x;})
 			.attr('y2',function(d){return d.target.y;})
 		node
-			.attr('cx',function(d){return d.x})
-			.attr('cy',function(d){return d.y})
+			.attr('cx',function(d){return d.x  = Math.max(radius, Math.min(width - radius, d.x))})
+			.attr('cy',function(d){return d.y = Math.max(radius, Math.min(height - radius, d.y))})
 	}
 	function dragstarted(d){
 		if(!event.active) simulation.alphaTarget(0.3).restart();
